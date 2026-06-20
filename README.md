@@ -54,6 +54,10 @@ nextflow run sanger-tol/genomeassembly \
    --outdir <OUTDIR>
 ```
 
+For an existing assembly, use the [post-assembly workflow](docs/postassembly.md) to
+run Hi-C scaffolding, Oatk organellar assembly, and genome QC directly from an
+assembly FASTA, long reads, and paired Hi-C FASTQ data.
+
 > [!WARNING]
 > Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/running/run-pipelines#using-parameter-files).
 

@@ -14,7 +14,7 @@ process ASMSTATS {
     tuple val(meta), path("*.stats"), emit: stats
     // WARN: Version information not provided by tool on CLI. Please update this string when bumping container versions.
     tuple val("${task.process}"), val('asmstats'), eval('echo 1.0.0'), emit: versions_asmstats, topic: versions
-    tuple val("${task.process}"), val('seqtk'), eval('seqtk |& sed "/Version/!d; s/.* //"'), emit: versions_seqtk, topic: versions
+    tuple val("${task.process}"), val('seqtk'), eval('seqtk 2>&1 | sed "/Version/!d; s/.* //"'), emit: versions_seqtk, topic: versions
 
     when:
     task.ext.when == null || task.ext.when

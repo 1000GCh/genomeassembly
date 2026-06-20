@@ -51,7 +51,7 @@ process GAWK {
 
     stub:
     prefix = task.ext.prefix ?: "${meta.id}"
-    suffix = task.ext.suffix ?: "${input.getExtension()}"
+    suffix = task.ext.suffix ?: "${input.collect { file -> file.getExtension() }.get(0)}"
     def create_cmd = suffix.endsWith("gz") ? "echo '' | gzip >" : "touch"
 
     """
