@@ -13,6 +13,8 @@ BUSCO, and MerquryFK QC on the scaffolded assembly.
   profile is supplied.
 - `--oatk_plastid_hmm`: plastid Oatk `.fam` profile. Optional when a mitochondrial
   profile is supplied.
+- `--oatk_assembly_gfa`: optional assembly graph. The pipeline adds
+  `-G <assembly.gfa>` to Oatk and retains the long-read inputs.
 
 At least one Oatk profile is required. Each `.fam` file must be accompanied by
 its `.h3f`, `.h3i`, `.h3m`, and `.h3p` files in the same directory. See the
@@ -26,6 +28,7 @@ nextflow run postassembly.nf \
   --long_reads 'reads/*.fastq.gz' \
   --hic 'hic/*_R{1,2}.fastq.gz' \
   --oatk_mito_hmm genomeassembly/dbs/v20230921/insecta_mito.fam \
+  --oatk_assembly_gfa asm/ana_asm_v04.bp.p_ctg.gfa \
   --sample sample_name \
   --outdir results \
   -profile docker

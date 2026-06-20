@@ -19,6 +19,7 @@ params.oatk_kmer_size                 = 1001
 params.oatk_coverage_cutoff           = 50
 params.oatk_mito_hmm                  = null
 params.oatk_plastid_hmm               = null
+params.oatk_assembly_gfa              = null
 
 workflow {
     main:
@@ -35,9 +36,13 @@ workflow {
     def hic = files(params.hic, checkIfExists: true)
     def oatk_mito_hmm = params.oatk_mito_hmm ? createHmmFilesList(params.oatk_mito_hmm) : []
     def oatk_plastid_hmm = params.oatk_plastid_hmm ? createHmmFilesList(params.oatk_plastid_hmm) : []
+    def oatk_assembly_gfa = params.oatk_assembly_gfa ? file(params.oatk_assembly_gfa, checkIfExists: true) : null
 
     if ([hic].flatten().size() != 2) {
         error "--hic must resolve to exactly two paired FASTQ files; found ${[hic].flatten().size()}"
+    }
+    if (oatk_assembly_gfa && oatk_assembly_gfa.getExtension() != 'gfa') {
+        error "--oatk_assembly_gfa must be a GFA file: ${oatk_assembly_gfa}"
     }
 
     POSTASSEMBLY(
@@ -52,7 +57,8 @@ workflow {
         params.oatk_kmer_size,
         params.oatk_coverage_cutoff,
         oatk_mito_hmm,
-        oatk_plastid_hmm
+        oatk_plastid_hmm,
+        oatk_assembly_gfa
     )
 
     ch_assembly_stats_files = POSTASSEMBLY.out.assembly_stats.map { _meta, files -> files }

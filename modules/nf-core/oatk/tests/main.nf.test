@@ -34,6 +34,7 @@ nextflow_process {
                     ]
                 ]
                 input[2] = [[:], []]
+                input[3] = [[:], []]
                 """
             }
         }
@@ -81,6 +82,7 @@ nextflow_process {
                         file("https://github.com/c-zhou/OatkDB/raw/main/v20230921/embryophyta_pltd.fam.h3p", checkIfExists: true)
                     ]
                 ]
+                input[3] = [[:], []]
                 """
             }
         }
@@ -140,6 +142,7 @@ nextflow_process {
                         file("https://github.com/c-zhou/OatkDB/raw/main/v20230921/embryophyta_pltd.fam.h3p", checkIfExists: true)
                     ]
                 ]
+                input[3] = [[:], []]
                 """
             }
         }
@@ -193,6 +196,7 @@ nextflow_process {
                         file("https://github.com/c-zhou/OatkDB/raw/main/v20230921/embryophyta_pltd.fam.h3p", checkIfExists: true)
                     ]
                 ]
+                input[3] = [[:], []]
                 """
             }
         }

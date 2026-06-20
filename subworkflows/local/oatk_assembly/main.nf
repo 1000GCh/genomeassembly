@@ -14,6 +14,7 @@ workflow OATK_ASSEMBLY {
             reads: [spec, spec.data.long_read.reads]
             mito_hmm: spec.params.oatk_mito_hmm ? [spec, spec.params.oatk_mito_hmm] : [[], []]
             plastid_hmm: spec.params.oatk_plastid_hmm ? [spec, spec.params.oatk_plastid_hmm] : [[], []]
+            assembly_gfa: spec.params.oatk_assembly_gfa ? [spec, spec.params.oatk_assembly_gfa] : [[], []]
         }
 
     //
@@ -22,7 +23,8 @@ workflow OATK_ASSEMBLY {
     OATK(
         ch_oatk_input.reads,
         ch_oatk_input.mito_hmm,
-        ch_oatk_input.plastid_hmm
+        ch_oatk_input.plastid_hmm,
+        ch_oatk_input.assembly_gfa
     )
 
     //

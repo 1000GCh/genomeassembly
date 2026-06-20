@@ -23,6 +23,7 @@ workflow POSTASSEMBLY {
     val_oatk_coverage_cutoff
     val_oatk_mito_hmm
     val_oatk_plastid_hmm
+    val_oatk_assembly_gfa
 
     main:
     ch_inputs = ch_assembly
@@ -63,7 +64,8 @@ workflow POSTASSEMBLY {
                 oatk_coverage_cutoff: val_oatk_coverage_cutoff,
                 oatk_arguments: '',
                 oatk_mito_hmm: val_oatk_mito_hmm,
-                oatk_plastid_hmm: val_oatk_plastid_hmm
+                oatk_plastid_hmm: val_oatk_plastid_hmm,
+                oatk_assembly_gfa: val_oatk_assembly_gfa
             ],
             tools: [:]
         ]

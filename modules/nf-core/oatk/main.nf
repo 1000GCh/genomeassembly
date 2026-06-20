@@ -11,6 +11,7 @@ process OATK {
     tuple val(meta) , path(reads)
     tuple val(meta2), path(mito_hmm_files)
     tuple val(meta3), path(pltd_hmm_files)
+    tuple val(meta4), path(assembly_gfa)
 
     output:
     tuple val(meta), path("*mito.ctg.fasta"), emit: mito_fasta, optional: true
@@ -34,11 +35,13 @@ process OATK {
     def prefix = task.ext.prefix ?: "${meta.id}"
     def mito_hmm_arg = mito_hmm_files ? '-m ' + mito_hmm_files.find { hmm -> hmm.getExtension() =~ /fam|hmm/ } : ""
     def pltd_hmm_arg = pltd_hmm_files ? '-p ' + pltd_hmm_files.find { hmm -> hmm.getExtension() =~ /fam|hmm/ } : ""
+    def assembly_gfa_arg = assembly_gfa ? '-G ' + assembly_gfa : ""
     """
     oatk \\
         $args \\
         $mito_hmm_arg \\
         $pltd_hmm_arg \\
+        $assembly_gfa_arg \\
         -t ${task.cpus} \\
         -o ${prefix} \\
         ${reads} \\
