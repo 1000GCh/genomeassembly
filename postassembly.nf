@@ -18,14 +18,15 @@ params.oatk_kmer_size                 = 1001
 params.oatk_coverage_cutoff           = 50
 
 workflow {
+    main:
     if (!params.assembly || !params.long_reads || !params.hic) {
         error 'Required parameters: --assembly, --long_reads, and --hic'
     }
 
     def meta = [id: params.sample]
     def assembly = file(params.assembly, checkIfExists: true)
-    def long_reads = file(params.long_reads, checkIfExists: true)
-    def hic = file(params.hic, checkIfExists: true)
+    def long_reads = files(params.long_reads, checkIfExists: true)
+    def hic = files(params.hic, checkIfExists: true)
 
     if ([hic].flatten().size() != 2) {
         error "--hic must resolve to exactly two paired FASTQ files; found ${[hic].flatten().size()}"
