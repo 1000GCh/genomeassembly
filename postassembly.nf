@@ -3,6 +3,7 @@
 nextflow.enable.dsl = 2
 
 include { POSTASSEMBLY } from './workflows/postassembly'
+include { createHmmFilesList } from './functions/local/input_validation'
 
 params.assembly                       = null
 params.long_reads                     = null
@@ -16,17 +17,24 @@ params.busco_lineage                  = 'eukaryota_odb10'
 params.busco_lineage_directory        = null
 params.oatk_kmer_size                 = 1001
 params.oatk_coverage_cutoff           = 50
+params.oatk_mito_hmm                  = null
+params.oatk_plastid_hmm               = null
 
 workflow {
     main:
     if (!params.assembly || !params.long_reads || !params.hic) {
         error 'Required parameters: --assembly, --long_reads, and --hic'
     }
+    if (!params.oatk_mito_hmm && !params.oatk_plastid_hmm) {
+        error 'Oatk requires at least one profile: --oatk_mito_hmm and/or --oatk_plastid_hmm'
+    }
 
     def meta = [id: params.sample]
     def assembly = file(params.assembly, checkIfExists: true)
     def long_reads = files(params.long_reads, checkIfExists: true)
     def hic = files(params.hic, checkIfExists: true)
+    def oatk_mito_hmm = params.oatk_mito_hmm ? createHmmFilesList(params.oatk_mito_hmm) : []
+    def oatk_plastid_hmm = params.oatk_plastid_hmm ? createHmmFilesList(params.oatk_plastid_hmm) : []
 
     if ([hic].flatten().size() != 2) {
         error "--hic must resolve to exactly two paired FASTQ files; found ${[hic].flatten().size()}"
@@ -42,7 +50,9 @@ workflow {
         params.busco_lineage,
         params.busco_lineage_directory ? file(params.busco_lineage_directory, checkIfExists: true) : null,
         params.oatk_kmer_size,
-        params.oatk_coverage_cutoff
+        params.oatk_coverage_cutoff,
+        oatk_mito_hmm,
+        oatk_plastid_hmm
     )
 
     ch_assembly_stats_files = POSTASSEMBLY.out.assembly_stats.map { _meta, files -> files }

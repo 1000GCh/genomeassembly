@@ -9,6 +9,14 @@ BUSCO, and MerquryFK QC on the scaffolded assembly.
 - `--assembly`: assembled nuclear genome in FASTA format.
 - `--long_reads`: long reads in FASTA/FASTQ format. Globs must be quoted.
 - `--hic`: exactly two paired Hi-C FASTQ files. A quoted glob may be used.
+- `--oatk_mito_hmm`: mitochondrial Oatk `.fam` profile. Optional when a plastid
+  profile is supplied.
+- `--oatk_plastid_hmm`: plastid Oatk `.fam` profile. Optional when a mitochondrial
+  profile is supplied.
+
+At least one Oatk profile is required. Each `.fam` file must be accompanied by
+its `.h3f`, `.h3i`, `.h3m`, and `.h3p` files in the same directory. See the
+[bundled database index](oatk-databases.md) for profiles under `dbs/v20230921`.
 
 ## Example
 
@@ -17,6 +25,7 @@ nextflow run postassembly.nf \
   --assembly assembly.fasta \
   --long_reads 'reads/*.fastq.gz' \
   --hic 'hic/*_R{1,2}.fastq.gz' \
+  --oatk_mito_hmm genomeassembly/dbs/v20230921/insecta_mito.fam \
   --sample sample_name \
   --outdir results \
   -profile docker

@@ -21,6 +21,8 @@ workflow POSTASSEMBLY {
     val_busco_lineage_directory
     val_oatk_kmer_size
     val_oatk_coverage_cutoff
+    val_oatk_mito_hmm
+    val_oatk_plastid_hmm
 
     main:
     ch_inputs = ch_assembly
@@ -60,8 +62,8 @@ workflow POSTASSEMBLY {
                 oatk_kmer_size: val_oatk_kmer_size,
                 oatk_coverage_cutoff: val_oatk_coverage_cutoff,
                 oatk_arguments: '',
-                oatk_mito_hmm: [],
-                oatk_plastid_hmm: []
+                oatk_mito_hmm: val_oatk_mito_hmm,
+                oatk_plastid_hmm: val_oatk_plastid_hmm
             ],
             tools: [:]
         ]
